@@ -48,7 +48,3 @@ func flip_sprites() -> void:
 		player_sprite.flip_h = false
 	elif heading == Vector2.LEFT:
 		player_sprite.flip_h = true
-
-
-
-#....
