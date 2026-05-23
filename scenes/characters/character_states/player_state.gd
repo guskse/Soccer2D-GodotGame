@@ -1,7 +1,6 @@
 extends Node
 class_name PlayerState
 
-
 signal state_transition_requested(new_state: Player.State)
 
 var animation_player : AnimationPlayer = null

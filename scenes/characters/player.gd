@@ -13,6 +13,7 @@ enum State { MOVING, TACKLING, RECOVERING }
 
 var current_state: PlayerState = null
 var heading := Vector2.RIGHT
+
 var state_factory := PlayerStateFactory.new()
 
 
