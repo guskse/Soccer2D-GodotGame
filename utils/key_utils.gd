@@ -34,7 +34,7 @@ func is_action_pressed(scheme: Player.ControlScheme, action: Action) -> bool:
 	return Input.is_action_pressed(ACTIONS_MAP[scheme][action])
 
 func is_action_just_pressed(scheme: Player.ControlScheme, action: Action) -> bool:
-	return Input.is_action_pressed(ACTIONS_MAP[scheme][action])
+	return Input.is_action_just_pressed(ACTIONS_MAP[scheme][action])
 
 func is_action_just_released(scheme: Player.ControlScheme, action: Action) -> bool:
-	return Input.is_action_pressed(ACTIONS_MAP[scheme][action])
+	return Input.is_action_just_released(ACTIONS_MAP[scheme][action])
