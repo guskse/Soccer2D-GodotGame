@@ -44,4 +44,4 @@ ball = NodePath("../Ball")
 control_scheme = 0
 
 [node name="Ball" parent="ActorsContainer" unique_id=1007386592 instance=ExtResource("5_71j4m")]
-position = Vector2(131, 91)
+position = Vector2(71, 102)

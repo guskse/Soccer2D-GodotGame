@@ -153,9 +153,6 @@ height = 14.0
 [node name="Player" type="CharacterBody2D" unique_id=1070728705]
 collision_layer = 2
 script = ExtResource("1_yewv4")
-control_scheme = null
-speed = null
-power = null
 
 [node name="PlayerSprite" type="Sprite2D" parent="." unique_id=915802532]
 texture = ExtResource("1_rp718")
@@ -173,3 +170,10 @@ autoplay = &"idle"
 position = Vector2(0, -3)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_rp718")
+
+[node name="TeammateDetectionArea" type="Area2D" parent="." unique_id=2124615323]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TeammateDetectionArea" unique_id=2030714656]
+polygon = PackedVector2Array(0, -40, 280, -150, 330, -100, 330, 110, 280, 150, 0, 40)

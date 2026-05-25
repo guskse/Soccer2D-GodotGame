@@ -10,6 +10,7 @@ func _enter_tree() -> void:
 
 func _physics_process(delta: float) -> void:
 	set_ball_animation_from_velocity()
+	
 	var friction := FRICTION_AIR if ball.height > 0 else FRICTION_GROUND
 	ball.velocity = ball.velocity.move_toward(Vector2.ZERO, friction * delta)
 	process_gravity(delta, BOUNCINESS)
