@@ -15,6 +15,7 @@ func _enter_tree() -> void:
 	assert(carrier != null)
 
 func _process(delta: float) -> void:
+	flip_ball_sprite()
 	
 	var variation_x := 0.0
 	dribble_time += delta
@@ -30,13 +31,15 @@ func _process(delta: float) -> void:
 	else:
 		animation_player.play("idle")
 	
+	#SET BALL POSITION TO BE IN FRONT AND A LITTLE BELOW THE CARRIER
+	ball.position = carrier.position + Vector2(
+		variation_x + carrier.heading.x * OFFSET_FROM_PLAYER.x, OFFSET_FROM_PLAYER.y
+	)
+
+
+func flip_ball_sprite() -> void:
 	#FLIP BALL SPRITE DEPENDING ON CARRIER'S HEADING DIRECTION
 	if carrier.heading == Vector2.LEFT:
 		ball.ball_sprite.flip_h = true
 	elif carrier.heading == Vector2.RIGHT:
 		ball.ball_sprite.flip_h = false
-	
-	#SET BALL POSITION TO BE IN FRONT AND A LITTLE BELOW THE CARRIER
-	ball.position = carrier.position + Vector2(
-		variation_x + carrier.heading.x * OFFSET_FROM_PLAYER.x, OFFSET_FROM_PLAYER.y
-	)

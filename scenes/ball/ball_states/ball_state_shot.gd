@@ -7,13 +7,13 @@ const SHOT_HEIGHT := 5
 
 var time_since_shot := Time.get_ticks_msec()
 
-
 func _enter_tree() -> void:
 	animation_player.play("roll")
 	#change scale of ball giving it a speed effect
 	ball_sprite.scale.y = SHOT_SPRITE_SCALE
 	ball.height = SHOT_HEIGHT
 	time_since_shot = Time.get_ticks_msec()
+	set_ball_animation_from_velocity()
 
 
 func _physics_process(delta: float) -> void:
@@ -25,5 +25,7 @@ func _physics_process(delta: float) -> void:
 func _exit_tree() -> void:
 	#reset the scale of the ball after exiting the state
 	ball_sprite.scale.y = 1.0
+
+
 
 #...
