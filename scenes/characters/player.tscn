@@ -46,10 +46,24 @@ tracks/0/path = NodePath("PlayerSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.15),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.060157947, 0.1, 0.1001),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [49, 50, 51]
+"values": [49, 50, 51, 51]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.14658779),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"on_animation_complete"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_kqtwu"]
@@ -139,6 +153,9 @@ height = 14.0
 [node name="Player" type="CharacterBody2D" unique_id=1070728705]
 collision_layer = 2
 script = ExtResource("1_yewv4")
+control_scheme = null
+speed = null
+power = null
 
 [node name="PlayerSprite" type="Sprite2D" parent="." unique_id=915802532]
 texture = ExtResource("1_rp718")

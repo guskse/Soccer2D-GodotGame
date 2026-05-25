@@ -23,10 +23,13 @@ func _process(delta: float) -> void:
 		
 		var ease_time := duration_press / DURATION_MAX_BONUS
 		var bonus := ease(ease_time, EASE_REWARD_FACTOR)
+		
 		var shot_power := player.power * (1 + bonus)
 		shot_direction = shot_direction.normalized() #will transform vector into length 1 (normalize)
-		print(shot_power, shot_direction)
-
+		
+		var shot_data = PlayerStateData.build().set_shot_direction(shot_direction).set_shot_power(shot_power)
+		
+		transition_state(Player.State.SHOOTING, shot_data)
 
 
 #...
