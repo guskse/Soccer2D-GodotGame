@@ -1,6 +1,9 @@
 extends AnimatableBody2D
 class_name Ball
 
+@export var friction_air := 30.0
+@export var friction_ground := 150.0
+
 @onready var player_detection_area: Area2D = %PlayerDetectionArea
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var ball_sprite: Sprite2D = $BallSprite
@@ -24,7 +27,7 @@ func _process(_delta: float) -> void:
 
 
 func switch_state(state: Ball.State) -> void:
-	if current_state:
+	if current_state != null:
 		current_state.queue_free()
 	current_state = state_factory.get_fresh_state(state)
 	current_state.setup(self, player_detection_area, carrier, animation_player, ball_sprite)
@@ -34,9 +37,18 @@ func switch_state(state: Ball.State) -> void:
 
 
 func shoot(shot_velocity: Vector2) -> void:
-	velocity += shot_velocity
+	velocity = shot_velocity
 	carrier = null
 	switch_state(Ball.State.SHOT)
+
+func pass_to(destination: Vector2) -> void:
+	var direction := position.direction_to(destination)
+	var distance := position.distance_to(destination)
+	var intensity := sqrt(2 * distance * friction_ground)
+	velocity = intensity * direction
+	carrier = null
+	switch_state(Ball.State.FREEFORM)
+
 
 
 #...
