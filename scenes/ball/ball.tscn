@@ -65,7 +65,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nv6q1"]
-radius = 6.0
+radius = 7.0
 
 [node name="Ball" type="AnimatableBody2D" unique_id=1007386592]
 collision_layer = 4

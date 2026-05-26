@@ -1,14 +1,20 @@
 extends AnimatableBody2D
 class_name Ball
 
+enum State { CARRIED, FREEFORM, SHOT }
+
+const DISTANCE_HIGH_PASS := 130
+
+@export var air_connect_min_height : float = 5.0
+@export var air_connect_max_height : float = 35.0
+
 @export var friction_air := 30.0
 @export var friction_ground := 150.0
+@export var bounciness := 0.8
 
 @onready var player_detection_area: Area2D = %PlayerDetectionArea
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var ball_sprite: Sprite2D = $BallSprite
-
-enum State { CARRIED, FREEFORM, SHOT }
 
 var carrier: Player = null
 var current_state: BallState = null
@@ -41,14 +47,29 @@ func shoot(shot_velocity: Vector2) -> void:
 	carrier = null
 	switch_state(Ball.State.SHOT)
 
+
 func pass_to(destination: Vector2) -> void:
 	var direction := position.direction_to(destination)
 	var distance := position.distance_to(destination)
 	var intensity := sqrt(2 * distance * friction_ground)
 	velocity = intensity * direction
+	
+	#if distance from target is too big, it will be a pass with height velocity (a Lob Pass)
+	if distance > DISTANCE_HIGH_PASS:
+		height_velocity = BallState.GRAVITY * distance / (1.8 * intensity)
+	
 	carrier = null
 	switch_state(Ball.State.FREEFORM)
 
+
+func stop() -> void:
+	velocity = Vector2.ZERO
+
+func can_air_interact() -> bool:
+	return current_state != null and current_state.can_air_interact()
+
+func can_air_connect() -> bool:
+	return height >= air_connect_min_height and height <= air_connect_max_height
 
 
 #...

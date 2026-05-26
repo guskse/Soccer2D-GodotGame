@@ -13,7 +13,6 @@ var dribble_time := 0.0
 func _enter_tree() -> void:
 	#MAKE SURE CARRIER EXISTS IF NOT, WILL GENERATE ERROR
 	assert(carrier != null)
-	ball.height = 0.0
 
 func _process(delta: float) -> void:
 	flip_ball_sprite()
@@ -36,6 +35,7 @@ func _process(delta: float) -> void:
 	ball.position = carrier.position + Vector2(
 		variation_x + carrier.heading.x * OFFSET_FROM_PLAYER.x, OFFSET_FROM_PLAYER.y
 	)
+	process_gravity(delta)
 
 
 func flip_ball_sprite() -> void:

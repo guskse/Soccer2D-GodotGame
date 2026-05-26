@@ -15,19 +15,17 @@ func _enter_tree() -> void:
 	time_since_shot = Time.get_ticks_msec()
 
 
-
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if Time.get_ticks_msec() - time_since_shot > DURATION_SHOT:
 		#if SHOT duration is over, ball will go back to FREEFORM state
 		state_transition_requested.emit(Ball.State.FREEFORM)
 	else:
-		ball.move_and_collide(ball.velocity * delta)
+		move_and_bounce(delta)
 
 
 func _exit_tree() -> void:
 	#reset the scale of the ball after exiting the state
 	ball_sprite.scale.y = 1.0
-
 
 
 #...
