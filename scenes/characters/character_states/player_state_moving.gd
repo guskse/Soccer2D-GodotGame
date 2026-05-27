@@ -26,15 +26,26 @@ func handle_human_movement():
 	elif ball.can_air_interact():
 		if KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
 			if player.velocity == Vector2.ZERO:
-				pass
+				#if player is standing and looking towards the opposition's goal, he will volley kick
+				if is_facing_target_goal():
+					transition_state(Player.State.VOLLEY_KICK)
+				else:
+					#if player is standing and looking away from the opposition's goal, he will bicycle kick
+					transition_state(Player.State.BICYCLE_KICK)
 			else:
+				#if player is moving and the ball can air interact, he will make a header shot
 				transition_state(Player.State.HEADER)
-
 
 
 	#TACKLE INPUT LOGIC
 	#if !player.has_ball() and player.velocity != Vector2.ZERO and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
 		#transition_state(Player.State.TACKLING)
+
+
+
+func is_facing_target_goal() -> bool:
+	var direction_to_target_goal := player.position.direction_to(target_goal.position)
+	return player.heading.dot(direction_to_target_goal) > 0
 
 
 #...

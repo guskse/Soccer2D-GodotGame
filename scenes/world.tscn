@@ -104,22 +104,28 @@ collision_mask = 0
 position = Vector2(13, 55)
 polygon = PackedVector2Array(2, 67, 10, 67, -6, -69, -11, -69)
 
-[node name="Player" parent="ActorsContainer" unique_id=1070728705 node_paths=PackedStringArray("ball") instance=ExtResource("4_k0juu")]
-position = Vector2(99, 105)
+[node name="Player" parent="ActorsContainer" unique_id=1070728705 node_paths=PackedStringArray("ball", "own_goal", "target_goal") instance=ExtResource("4_k0juu")]
+position = Vector2(181, 137)
+ball = NodePath("../Ball")
 control_scheme = 1
-ball = NodePath("../Ball")
+own_goal = NodePath("../PitchObjects/GoalHome")
+target_goal = NodePath("../PitchObjects/GoalAway")
 
-[node name="Player2" parent="ActorsContainer" unique_id=698970916 node_paths=PackedStringArray("ball") instance=ExtResource("4_k0juu")]
-position = Vector2(245, 145)
+[node name="Player2" parent="ActorsContainer" unique_id=698970916 node_paths=PackedStringArray("ball", "own_goal", "target_goal") instance=ExtResource("4_k0juu")]
+position = Vector2(91, 138)
+ball = NodePath("../Ball")
 control_scheme = 2
-ball = NodePath("../Ball")
+own_goal = NodePath("../PitchObjects/GoalHome")
+target_goal = NodePath("../PitchObjects/GoalAway")
 
-[node name="Player3" parent="ActorsContainer" unique_id=240652606 node_paths=PackedStringArray("ball") instance=ExtResource("4_k0juu")]
-position = Vector2(378, 95)
+[node name="Player3" parent="ActorsContainer" unique_id=240652606 node_paths=PackedStringArray("ball", "own_goal", "target_goal") instance=ExtResource("4_k0juu")]
+position = Vector2(553, 94)
 ball = NodePath("../Ball")
+own_goal = NodePath("../PitchObjects/GoalHome")
+target_goal = NodePath("../PitchObjects/GoalAway")
 
 [node name="Ball" parent="ActorsContainer" unique_id=1007386592 instance=ExtResource("5_71j4m")]
-position = Vector2(124, 103)
+position = Vector2(109, 137)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1610649027 node_paths=PackedStringArray("ball")]
 limit_left = 0
