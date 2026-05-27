@@ -46,10 +46,10 @@ shape = SubResource("RectangleShape2D_0ivff")
 [node name="Targets" type="Node2D" parent="." unique_id=1599188897]
 
 [node name="TopTarget" type="Node2D" parent="Targets" unique_id=479144666]
-position = Vector2(22, -59)
+position = Vector2(17, -61)
 
 [node name="MiddleTarget" type="Node2D" parent="Targets" unique_id=892925966]
-position = Vector2(22, -39)
+position = Vector2(17, -40)
 
 [node name="BottomTarget" type="Node2D" parent="Targets" unique_id=1811518309]
-position = Vector2(22, -14)
+position = Vector2(16, -14)

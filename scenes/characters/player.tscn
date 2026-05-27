@@ -50,6 +50,22 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_2l4js"]
+resource_name = "chest_control"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [42]
+}
+
 [sub_resource type="Animation" id="Animation_7vyk4"]
 resource_name = "header"
 length = 0.2
@@ -217,6 +233,7 @@ tracks/1/keys = {
 _data = {
 &"RESET": SubResource("Animation_yewv4"),
 &"bicycle_kick": SubResource("Animation_eojnx"),
+&"chest_control": SubResource("Animation_2l4js"),
 &"header": SubResource("Animation_7vyk4"),
 &"idle": SubResource("Animation_rp718"),
 &"kick": SubResource("Animation_6eyoc"),
@@ -232,8 +249,8 @@ radius = 3.0
 height = 14.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dyp2m"]
-radius = 11.0
-height = 34.0
+radius = 17.0
+height = 40.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1070728705]
 collision_layer = 2
@@ -259,7 +276,7 @@ libraries/ = SubResource("AnimationLibrary_yewv4")
 autoplay = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=624227251]
-position = Vector2(0, -3)
+position = Vector2(-1, -2)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_rp718")
 
@@ -276,12 +293,12 @@ centered = false
 offset = Vector2(-8, -15)
 
 [node name="BallDetectionArea" type="Area2D" parent="." unique_id=649835281]
-position = Vector2(0, -11)
+position = Vector2(1, -16)
 collision_layer = 0
 collision_mask = 4
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BallDetectionArea" unique_id=252530950]
-position = Vector2(-1, -7)
+position = Vector2(-1, 3)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_dyp2m")

@@ -1,8 +1,8 @@
 extends PlayerState
 class_name PlayerStateHeader
 
-var air_connect_min_height := 5.0
-var air_connect_max_height := 40.0
+var air_connect_min_height := 3.0
+var air_connect_max_height := 30.0
 
 const BONUS_POWER := 1.5
 const HEIGHT_START := 0.1

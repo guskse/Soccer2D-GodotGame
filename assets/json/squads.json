@@ -22,20 +22,20 @@
 		"name": "A. GRIEZMANN",
 		"skin": 0,
 		"role": 2,
-		"speed": 74,
-		"power": 172,
+		"speed": 78,
+		"power": 176,
 	}, {
 		"name": "K. MBAPPE",
 		"skin": 1,
 		"role": 3,
-		"speed": 85,
+		"speed": 87,
 		"power": 185,
 	}, {
 		"name": "O. GIROUD",
 		"skin": 0,
 		"role": 3,
-		"speed": 79,
-		"power": 170,
+		"speed": 75,
+		"power": 181,
 	}]
 }, {
 	"country": "ARGENTINA",
@@ -61,14 +61,14 @@
 		"name": "A. DI MARIA",
 		"skin": 0,
 		"role": 2,
-		"speed": 82,
+		"speed": 84,
 		"power": 185,
 	}, {
 		"name": "L. MESSI",
 		"skin": 0,
 		"role": 3,
 		"speed": 84,
-		"power": 188,
+		"power": 190,
 	}, {
 		"name": "J. ALVAREZ",
 		"skin": 0,
@@ -89,31 +89,31 @@
 		"skin": 1,
 		"role": 1,
 		"speed": 75,
-		"power": 185,
+		"power": 182,
 	}, {
 		"name": "MARQUINHOS",
 		"skin": 1,
 		"role": 1,
 		"speed": 79,
-		"power": 182,
+		"power": 180,
 	}, {
 		"name": "CASEMIRO",
 		"skin": 1,
 		"role": 2,
-		"speed": 80,
+		"speed": 75,
 		"power": 182,
 	}, {
 		"name": "NEYMAR",
 		"skin": 1,
 		"role": 3,
-		"speed": 83,
-		"power": 187,
+		"speed": 86,
+		"power": 190,
 	}, {
-		"name": "RICHARLISON",
-		"skin": 0,
+		"name": "VINI JR",
+		"skin": 2,
 		"role": 3,
-		"speed": 78,
-		"power": 184,
+		"speed": 82,
+		"power": 186,
 	}]
 }, {
 	"country": "ENGLAND",
@@ -146,7 +146,7 @@
 		"skin": 0,
 		"role": 3,
 		"speed": 78,
-		"power": 183,
+		"power": 190,
 	}, {
 		"name": "R. STERLING",
 		"skin": 2,
@@ -224,13 +224,13 @@
 		"skin": 0,
 		"role": 3,
 		"speed": 75,
-		"power": 173,
+		"power": 178,
 	}, {
-		"name": "S. GNABRY",
-		"skin": 2,
+		"name": "P. ESPOSITO",
+		"skin": 0,
 		"role": 3,
-		"speed": 80,
-		"power": 175,
+		"speed": 76,
+		"power": 183,
 	}]
 }, {
 	"country": "SPAIN",
@@ -269,7 +269,7 @@
 		"skin": 0,
 		"role": 3,
 		"speed": 81,
-		"power": 170,
+		"power": 179,
 	}]
 }, {
 	"country": "USA",

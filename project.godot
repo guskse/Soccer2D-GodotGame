@@ -18,6 +18,7 @@ config/icon="uid://6ll8w8jgn7hi"
 [autoload]
 
 KeyUtils="*uid://cdwrlf0j01asx"
+DataLoader="*uid://dqi70k44jnpa3"
 
 [debug]
 

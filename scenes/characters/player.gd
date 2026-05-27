@@ -1,6 +1,7 @@
 extends CharacterBody2D
 class_name Player
 
+
 const CONTROL_SCHEME_MAP : Dictionary = {
 	ControlScheme.CPU: preload("res://assets/art/props/cpu.png"),
 	ControlScheme.P1: preload("res://assets/art/props/1p.png"),
@@ -8,9 +9,13 @@ const CONTROL_SCHEME_MAP : Dictionary = {
 }
 
 const GRAVITY := 8.0
+const BALL_CONTROL_HEIGHT_MAX := 15.0
 
 enum ControlScheme {CPU, P1, P2}
-enum State { MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK }
+enum State { MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL }
+enum Role { GOALIE, DEFENSE, MIDFIELD, OFFENSE }
+enum SkinColor { LIGHT, MEDIUM, DARK }
+
 
 @export var ball: Ball
 @export var control_scheme: ControlScheme
@@ -26,7 +31,9 @@ enum State { MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEA
 @onready var control_sprite: Sprite2D = $PlayerSprite/ControlSprite
 @onready var ball_detection_area: Area2D = $BallDetectionArea
 
-
+var fullname := ""
+var role := Player.Role.MIDFIELD
+var skin_color := Player.SkinColor.DARK
 var current_state: PlayerState = null
 var heading := Vector2.RIGHT
 var height := 0.0
@@ -37,7 +44,8 @@ var state_factory := PlayerStateFactory.new()
 
 func _ready() -> void:
 	switch_state(State.MOVING)
-	control_sprite.texture = CONTROL_SCHEME_MAP[control_scheme]
+	set_control_texture()
+	
 
 
 func _process(delta: float) -> void:
@@ -45,6 +53,19 @@ func _process(delta: float) -> void:
 	set_sprite_visibility()
 	process_gravity(delta)
 	move_and_slide()
+
+
+func initialize(context_position: Vector2, context_ball: Ball, context_own_goal: Goal, context_target_goal: Goal, context_player_data: PlayerResource) -> void:
+	position = context_position
+	ball = context_ball
+	own_goal = context_own_goal
+	target_goal = context_target_goal
+	speed = context_player_data.speed
+	power = context_player_data.power
+	role = context_player_data.role
+	skin_color = context_player_data.skin_color
+	fullname = context_player_data.full_name
+	heading = Vector2.LEFT if target_goal.position.x < position.x else Vector2.RIGHT
 
 
 func switch_state(state: State, state_data: PlayerStateData = PlayerStateData.new()) -> void:
@@ -97,5 +118,13 @@ func process_gravity(delta: float) -> void:
 			height = 0
 	player_sprite.position = Vector2.UP * height
 
+
+func control_ball() -> void:
+	if ball.height > BALL_CONTROL_HEIGHT_MAX:
+		switch_state(Player.State.CHEST_CONTROL)
+
+
+func set_control_texture() -> void:
+	control_sprite.texture = CONTROL_SCHEME_MAP[control_scheme]
 
 #...

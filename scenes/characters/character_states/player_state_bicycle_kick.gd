@@ -1,7 +1,7 @@
 extends PlayerState
 class_name PlayerStateBicycleKick
 
-var air_connect_min_height := 1.0
+var air_connect_min_height := 10.0
 var air_connect_max_height := 30.0
 
 const BONUS_POWER := 2.0
@@ -13,6 +13,7 @@ func _enter_tree() -> void:
 func on_ball_entered(contact_ball: Ball) -> void:
 	print("bicycle!")
 	if contact_ball.can_air_connect(air_connect_min_height, air_connect_max_height):
+		print("can air connect bicycle")
 		var destination := target_goal.get_random_target_position()
 		var direction := ball.position.direction_to(destination)
 		contact_ball.shoot(direction * player.power * BONUS_POWER)

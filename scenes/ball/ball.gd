@@ -29,6 +29,7 @@ func _process(_delta: float) -> void:
 	ball_sprite.position = Vector2.UP * height
 
 
+
 func switch_state(state: Ball.State) -> void:
 	if current_state != null:
 		current_state.queue_free()
@@ -67,6 +68,5 @@ func can_air_interact() -> bool:
 
 func can_air_connect(air_connect_min_height: float, air_connect_max_height: float) -> bool:
 	return height >= air_connect_min_height and height <= air_connect_max_height
-
 
 #...
