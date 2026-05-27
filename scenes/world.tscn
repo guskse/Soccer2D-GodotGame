@@ -133,7 +133,7 @@ position = Vector2(13, 55)
 polygon = PackedVector2Array(2, 67, 10, 67, -6, -69, -11, -69)
 
 [node name="Ball" parent="ActorsContainer" unique_id=1007386592 instance=ExtResource("5_71j4m")]
-position = Vector2(425, 180)
+position = Vector2(399, 125)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1610649027 node_paths=PackedStringArray("ball")]
 limit_left = 0
