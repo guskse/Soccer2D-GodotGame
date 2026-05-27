@@ -2,7 +2,7 @@ extends BallState
 class_name BallStateCarried
 
 #ball will be positioned in front and slightly below player
-const OFFSET_FROM_PLAYER := Vector2(5.0, 2.0)
+const OFFSET_FROM_PLAYER := Vector2(8.0, 2.0)
 
 #will be used to calculate the ball movement when dribbling
 const DRIBBLE_FREQUENCY :float = 10.0
