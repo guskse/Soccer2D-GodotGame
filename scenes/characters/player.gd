@@ -1,7 +1,6 @@
 extends CharacterBody2D
 class_name Player
 
-
 const CONTROL_SCHEME_MAP : Dictionary = {
 	ControlScheme.CPU: preload("res://assets/art/props/cpu.png"),
 	ControlScheme.P1: preload("res://assets/art/props/1p.png"),
@@ -11,6 +10,7 @@ const CONTROL_SCHEME_MAP : Dictionary = {
 const GRAVITY := 8.0
 const BALL_CONTROL_HEIGHT_MAX := 15.0
 const COUNTRIES := ["DEFAULT","FRANCE","ARGENTINA","BRAZIL","ENGLAND","GERMANY","ITALY","SPAIN","USA"]
+const WALK_ANIM_THRESHOLD := 0.6
 
 
 enum ControlScheme {CPU, P1, P2}
@@ -101,10 +101,15 @@ func switch_state(state: State, state_data: PlayerStateData = PlayerStateData.ne
 
 
 func set_movement_animation() -> void:
-	if velocity.length() > 0:
-		animation_player.play("run")
-	else:
+	var velocity_length := velocity.length()
+	
+	if velocity_length < 1:
 		animation_player.play("idle")
+	elif velocity_length < speed * WALK_ANIM_THRESHOLD:
+		animation_player.play("walk")
+	else:
+		animation_player.play("run")
+
 
 func set_heading() -> void:
 	if velocity.x > 0:
@@ -148,6 +153,11 @@ func control_ball() -> void:
 
 func set_control_texture() -> void:
 	control_sprite.texture = CONTROL_SCHEME_MAP[control_scheme]
+
+
+func is_facing_target_goal() -> bool:
+	var direction_to_target_goal := position.direction_to(target_goal.position)
+	return heading.dot(direction_to_target_goal) > 0
 
 
 
