@@ -6,11 +6,12 @@ signal state_transition_requested(new_state: Player.State, state_data: PlayerSta
 
 var ai_behavior: AIBehavior = null
 var animation_player : AnimationPlayer = null
+var ball: Ball = null
+var ball_detection_area: Area2D
 var player: Player = null
 var state_data: PlayerStateData = PlayerStateData.new()
-var ball: Ball = null
 var teammate_detection_area: Area2D
-var ball_detection_area: Area2D
+var tackle_damage_area: Area2D
 var own_goal: Goal
 var target_goal: Goal
 
@@ -24,7 +25,8 @@ func setup(
 	context_ball_detection_area: Area2D,
 	context_own_goal: Goal,
 	context_target_goal: Goal,
-	context_ai_behavior: AIBehavior
+	context_ai_behavior: AIBehavior,
+	context_tackle_damage_area: Area2D
 	) -> void:
 	player = context_player
 	ball = context_ball
@@ -34,6 +36,7 @@ func setup(
 	ball_detection_area = context_ball_detection_area
 	own_goal = context_own_goal
 	target_goal = context_target_goal
+	tackle_damage_area = context_tackle_damage_area
 	ai_behavior = context_ai_behavior
 
 

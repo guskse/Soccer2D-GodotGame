@@ -12,7 +12,6 @@ func on_ball_entered_back_net(ball: Ball) -> void:
 
 func get_random_target_position() -> Vector2:
 	var picked_target: Vector2 = targets.get_child(randi_range(0, targets.get_child_count() - 1 )).global_position
-	print(picked_target)
 	return picked_target
 
 func get_center_target_position() -> Vector2:

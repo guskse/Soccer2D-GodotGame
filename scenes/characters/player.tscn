@@ -93,6 +93,22 @@ tracks/0/keys = {
 "values": [24, 25]
 }
 
+[sub_resource type="Animation" id="Animation_xhtjm"]
+resource_name = "hurt"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [54, 55]
+}
+
 [sub_resource type="Animation" id="Animation_rp718"]
 resource_name = "idle"
 length = 0.5
@@ -263,6 +279,7 @@ _data = {
 &"bicycle_kick": SubResource("Animation_eojnx"),
 &"chest_control": SubResource("Animation_2l4js"),
 &"header": SubResource("Animation_7vyk4"),
+&"hurt": SubResource("Animation_xhtjm"),
 &"idle": SubResource("Animation_rp718"),
 &"kick": SubResource("Animation_6eyoc"),
 &"prep_kick": SubResource("Animation_kqtwu"),
@@ -280,6 +297,14 @@ height = 14.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dyp2m"]
 radius = 17.0
 height = 40.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6eyoc"]
+radius = 3.0
+height = 10.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eojnx"]
+radius = 35.0
+height = 114.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1070728705]
 collision_layer = 2
@@ -332,3 +357,28 @@ monitorable = false
 position = Vector2(-1, 3)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_dyp2m")
+
+[node name="TackleDamageArea" type="Area2D" parent="." unique_id=1344794277]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TackleDamageArea" unique_id=1982009814]
+position = Vector2(13, -3)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_6eyoc")
+debug_color = Color(0.8707527, 0.2774878, 0.55095875, 0.41960785)
+
+[node name="OpponentDetectionArea" type="Area2D" parent="." unique_id=1803407593]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OpponentDetectionArea" unique_id=1155860622]
+position = Vector2(34, -12)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_eojnx")
+debug_color = Color(0.17870456, 0.6280395, 0.40581954, 0.41960785)
