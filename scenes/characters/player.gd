@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Player
 
+signal swap_requested(player: Player)
+
 const CONTROL_SCHEME_MAP : Dictionary = {
 	ControlScheme.CPU: preload("res://assets/art/props/cpu.png"),
 	ControlScheme.P1: preload("res://assets/art/props/1p.png"),
@@ -14,7 +16,7 @@ const WALK_ANIM_THRESHOLD := 0.6
 
 
 enum ControlScheme {CPU, P1, P2}
-enum State { MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL, HURT }
+enum State { MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL, HURT, DIVING }
 enum Role { GOALIE, DEFENSE, MIDFIELD, OFFENSE }
 enum SkinColor { LIGHT, MEDIUM, DARK }
 
@@ -27,6 +29,7 @@ enum SkinColor { LIGHT, MEDIUM, DARK }
 @export var target_goal: Goal
 
 
+
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var ball_detection_area: Area2D = $BallDetectionArea
 @onready var player_sprite: Sprite2D = $PlayerSprite
@@ -34,9 +37,13 @@ enum SkinColor { LIGHT, MEDIUM, DARK }
 @onready var control_sprite: Sprite2D = $PlayerSprite/ControlSprite
 @onready var tackle_damage_area: Area2D = %TackleDamageArea
 @onready var opponent_detection_area: Area2D = %OpponentDetectionArea
+@onready var permanent_damage_emitter_area: Area2D = %PermanentDamageEmitterArea
+@onready var goalie_hands_collider: CollisionShape2D = %GoalieHandsCollider
 
 
-var ai_behavior: AIBehavior = AIBehavior.new()
+
+var ai_behavior_factory := AIBehaviorFactory.new()
+var current_ai_behavior: AIBehavior = null
 var country := ""
 var current_state: PlayerState = null
 var fullname := ""
@@ -51,13 +58,19 @@ var weight_on_duty_steering := 0.0
 
 
 func _ready() -> void:
-	switch_state(State.MOVING)
 	set_control_texture()
 	set_shader_properties()
 	setup_ai_behavior()
+	switch_state(State.MOVING)
 	tackle_damage_area.body_entered.connect(on_tackle_damage_area_entered.bind())
-	spawn_position = position
 	
+	permanent_damage_emitter_area.monitoring = role == Role.GOALIE
+	permanent_damage_emitter_area.body_entered.connect(on_tackle_damage_area_entered.bind())
+	
+	goalie_hands_collider.disabled = role != Role.GOALIE
+	
+	spawn_position = position
+
 
 func _process(delta: float) -> void:
 	flip_sprites()
@@ -88,16 +101,17 @@ func initialize(context_position: Vector2, context_ball: Ball, context_own_goal:
 
 
 func setup_ai_behavior() -> void:
-	ai_behavior.setup(self, ball, opponent_detection_area)
-	ai_behavior.name = "AI Behavior"
-	add_child(ai_behavior)
+	current_ai_behavior = ai_behavior_factory.get_ai_behavior(role)
+	current_ai_behavior.setup(self, ball, opponent_detection_area, teammate_detection_area)
+	current_ai_behavior.name = "AI Behavior"
+	add_child(current_ai_behavior)
 
 
 func switch_state(state: State, state_data: PlayerStateData = PlayerStateData.new()) -> void:
 	if current_state != null:
 		current_state.queue_free()
 	current_state = state_factory.get_fresh_state(state)
-	current_state.setup(self, state_data, animation_player, ball, teammate_detection_area, ball_detection_area, own_goal, target_goal, ai_behavior, tackle_damage_area)
+	current_state.setup(self, state_data, animation_player, ball, teammate_detection_area, ball_detection_area, own_goal, target_goal, current_ai_behavior, tackle_damage_area)
 	current_state.state_transition_requested.connect(switch_state.bind())
 	current_state.name = "PlayerStateMachine: " + str(state)
 	call_deferred("add_child", current_state)
@@ -175,6 +189,14 @@ func on_tackle_damage_area_entered(player: Player) -> void:
 	if player != self and player.country != country and player == ball.carrier:
 		player.get_hurt(position.direction_to(player.position))
 
+
+func can_carry_ball() -> bool:
+	return current_state != null and current_state.can_carry_ball()
+
+
+func get_pass_request(player: Player) -> void:
+	if ball.carrier == self and current_state != null and current_state.can_pass():
+		switch_state(Player.State.PASSING, PlayerStateData.build().set_pass_target(player))
 
 
 #...

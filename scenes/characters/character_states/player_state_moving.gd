@@ -19,25 +19,39 @@ func handle_human_movement():
 		#make the cone detection of teammates move in direction player is facing
 		teammate_detection_area.rotation = player.velocity.angle()
 	
-	if player.has_ball():
-		if KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.PASS):
+	if KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.PASS):
+		if player.has_ball():
 			transition_state(Player.State.PASSING)
-		elif KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
-			transition_state(Player.State.PREPPING_SHOT)
-	elif ball.can_air_interact() and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
-		if player.velocity == Vector2.ZERO:
-			if player.is_facing_target_goal():
-				transition_state(Player.State.VOLLEY_KICK)
-			else:
-				transition_state(Player.State.BICYCLE_KICK)
+		elif can_teammate_pass_ball():
+			ball.carrier.get_pass_request(player)
 		else:
-			transition_state(Player.State.HEADER)
+			player.swap_requested.emit(player)
+	
+	elif KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
+		if player.has_ball():
+			transition_state(Player.State.PREPPING_SHOT)
+		elif ball.can_air_interact():
+			if player.velocity == Vector2.ZERO:
+				if player.is_facing_target_goal():
+					transition_state(Player.State.VOLLEY_KICK)
+				else:
+					transition_state(Player.State.BICYCLE_KICK)
+			else:
+				transition_state(Player.State.HEADER)
+		elif player.velocity != Vector2.ZERO:
+			state_transition_requested.emit(Player.State.TACKLING)
 
-	#TACKLE INPUT LOGIC
-	if !player.has_ball() and player.velocity != Vector2.ZERO and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
-		transition_state(Player.State.TACKLING)
+
+func can_carry_ball() -> bool:
+	return player.role != Player.Role.GOALIE
 
 
+func can_teammate_pass_ball() -> bool:
+	return ball.carrier != null and ball.carrier.country == player.country and ball.carrier.control_scheme == Player.ControlScheme.CPU
+
+
+func can_pass() -> bool:
+	return true
 
 
 #...

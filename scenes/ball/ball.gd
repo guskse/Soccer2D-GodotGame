@@ -5,6 +5,8 @@ enum State { CARRIED, FREEFORM, SHOT }
 
 const DISTANCE_HIGH_PASS := 130
 const TUMBLE_HEIGHT_VELOCITY := 3.0
+const DURATION_TUMBLE_LOCK := 200
+const DURATION_PASS_LOCK := 500
 
 @export var friction_air := 30.0
 @export var friction_ground := 150.0
@@ -13,6 +15,8 @@ const TUMBLE_HEIGHT_VELOCITY := 3.0
 @onready var player_detection_area: Area2D = %PlayerDetectionArea
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var ball_sprite: Sprite2D = $BallSprite
+@onready var scoring_raycast: RayCast2D = %ScoringRaycast
+
 
 var carrier: Player = null
 var current_state: BallState = null
@@ -28,14 +32,14 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	ball_sprite.position = Vector2.UP * height
+	scoring_raycast.rotation = velocity.angle()
 
 
-
-func switch_state(state: Ball.State) -> void:
+func switch_state(state: Ball.State, data: BallStateData = BallStateData.new()) -> void:
 	if current_state != null:
 		current_state.queue_free()
 	current_state = state_factory.get_fresh_state(state)
-	current_state.setup(self, player_detection_area, carrier, animation_player, ball_sprite)
+	current_state.setup(self, player_detection_area, carrier, animation_player, ball_sprite, data)
 	current_state.state_transition_requested.connect(switch_state.bind())
 	current_state.name = "BallStateMachine"
 	call_deferred("add_child", current_state)
@@ -51,7 +55,7 @@ func tumble(tumble_velocity: Vector2) -> void:
 	velocity = tumble_velocity
 	carrier = null
 	height_velocity = TUMBLE_HEIGHT_VELOCITY
-	switch_state(Ball.State.FREEFORM)
+	switch_state(Ball.State.FREEFORM, BallStateData.build().set_lock_duration(DURATION_TUMBLE_LOCK))
 
 
 func pass_to(destination: Vector2) -> void:
@@ -65,7 +69,7 @@ func pass_to(destination: Vector2) -> void:
 		height_velocity = BallState.GRAVITY * distance / (1.8 * intensity)
 	
 	carrier = null
-	switch_state(Ball.State.FREEFORM)
+	switch_state(Ball.State.FREEFORM, BallStateData.build().set_lock_duration(DURATION_PASS_LOCK))
 
 
 func stop() -> void:
@@ -76,5 +80,13 @@ func can_air_interact() -> bool:
 
 func can_air_connect(air_connect_min_height: float, air_connect_max_height: float) -> bool:
 	return height >= air_connect_min_height and height <= air_connect_max_height
+
+
+func is_headed_for_scoring_area(scoring_area: Area2D) -> bool:
+	if not scoring_raycast.is_colliding():
+		return false
+	return scoring_raycast.get_collider() == scoring_area
+
+
 
 #...

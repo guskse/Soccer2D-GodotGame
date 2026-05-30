@@ -69,6 +69,7 @@ radius = 4.0
 
 [node name="Ball" type="AnimatableBody2D" unique_id=1007386592]
 collision_layer = 4
+collision_mask = 33
 sync_to_physics = false
 script = ExtResource("1_stoaj")
 
@@ -102,3 +103,11 @@ monitorable = false
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_nv6q1")
 debug_color = Color(1.973361e-06, 0.6365861, 0.40697974, 0.41960785)
+
+[node name="ScoringRaycast" type="RayCast2D" parent="." unique_id=158933225]
+unique_name_in_owner = true
+position = Vector2(0, -5)
+target_position = Vector2(80, 0)
+collision_mask = 16
+collide_with_areas = true
+collide_with_bodies = false

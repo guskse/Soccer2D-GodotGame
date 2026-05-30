@@ -18,7 +18,7 @@ func _enter_tree() -> void:
 func _process(delta: float) -> void:
 	if Time.get_ticks_msec() - time_since_shot > DURATION_SHOT:
 		#if SHOT duration is over, ball will go back to FREEFORM state
-		state_transition_requested.emit(Ball.State.FREEFORM)
+		transition_state(Ball.State.FREEFORM)
 	else:
 		move_and_bounce(delta)
 
